@@ -270,42 +270,42 @@
                                     <div class="grid grid-cols-3 gap-3 md:gap-6">
                                         <div class="group relative cursor-pointer">
                                             <label onclick="">
-                                                <div onclick="select_card(this, 'viettel')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400">
+                                                <div onclick="select_card(this, 'VIETTEL')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 card_nap">
                                                     <img alt="Viettel" class="w-full h-auto rounded-lg" src="/images/thecao/viettel.png">
                                                 </div>
                                             </label>
                                         </div>
                                         <div class="group relative cursor-pointer">
                                             <label>
-                                                <div onclick="select_card(this, 'mobifone')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 ">
+                                                <div onclick="select_card(this, 'MOBIFONE')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 card_nap">
                                                     <img alt="MobiFone" class="w-full h-auto rounded-lg" src="/images/thecao/mobifone.png">
                                                 </div>
                                             </label>
                                         </div>
                                         <div class="group relative cursor-pointer">
                                             <label>
-                                                <div onclick="select_card(this, 'vinaphone')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 ">
+                                                <div onclick="select_card(this, 'VINAPHONE')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 card_nap">
                                                     <img alt="VinaPhone" class="w-full h-auto rounded-lg" src="/images/thecao/vinaphone.png">
                                                 </div>
                                             </label>
                                         </div>
                                         <div class="group relative cursor-pointer">
                                             <label>
-                                                <div onclick="select_card(this, 'gate')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 ">
+                                                <div onclick="select_card(this, 'GATE')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 card_nap">
                                                     <img alt="Gate" class="w-full h-auto rounded-lg" src="/images/thecao/gate.png">
                                                 </div>
                                             </label>
                                         </div>
                                         <div class="group relative cursor-pointer">
                                             <label>
-                                                <div onclick="select_card(this, 'zing')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 border-yellow-400">
+                                                <div onclick="select_card(this, 'ZING')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 border-yellow-400 card_nap">
                                                     <img alt="Zing" class="w-full h-auto rounded-lg" src="/images/thecao/zing.png">
                                                 </div>
                                             </label>
                                         </div>
                                         <div class="group relative cursor-pointer">
                                             <label>
-                                                <div onclick="select_card(this, 'garena')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 ">
+                                                <div onclick="select_card(this, 'GARENA')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 card_nap">
                                                     <img alt="Garena" class="w-full h-auto rounded-lg" src="/images/thecao/garena.png">
                                                 </div>
                                             </label>
@@ -500,6 +500,7 @@
             $(element).removeClass("border-gray-300").addClass("border-danger");
 
             card_type = card
+            console.log(card_type)
         }
 
 
@@ -560,6 +561,7 @@
                 }else{
                     Swal.fire({
                         title: "Nạp thất thất bại",
+                        text:res.message ||"",
                         icon: "error",
                         showCancelButton: false,
                         confirmButtonColor: "#7066e0",

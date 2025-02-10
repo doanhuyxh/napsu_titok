@@ -10,4 +10,9 @@ public interface ICommon
     string RamdomNumber(int length);
     ApplicationUser GetApplicationUser(string id);
     Task<string[]> UploadFile(string folder, IFormFile total, List<IFormFile> topChampion, List<IFormFile> winRate, string info);
+
+    string GetMD5(string str);
+
+    Task<string> NapTheAuto(DataUser model);
+
 }

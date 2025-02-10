@@ -1,15 +1,9 @@
-﻿using System.Diagnostics;
-using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using napsu_titok.Data;
 using napsu_titok.Models;
 using napsu_titok.Services;
-using System.Text.Encodings.Web;
-using System.Web;
-using System.IO.Pipelines;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -84,15 +78,15 @@ public class HomeController : Controller
             });
         }
 
-        var userData = apiResponse.data;
         string userDataJson = JsonConvert.SerializeObject(apiResponse.data);
 
         HttpContext.Session.SetString("TiktokUser", userDataJson);
+        HttpContext.Session.SetString("username", username);
 
         return Ok(new
         {
             code = 200,
-            data = userData
+            data = username
         });
     }
 
@@ -107,24 +101,110 @@ public class HomeController : Controller
     }
 
     [HttpPost("/nap-tien")]
-    public IActionResult NapTien([FromForm] string card, [FromForm] string serial, [FromForm] string code, [FromForm] double amount)
+    public async Task<IActionResult> NapTien([FromForm] string card, [FromForm] string serial, [FromForm] string code, [FromForm] double amount)
     {
-
-        string username = HttpContext.Session.GetString("username")??"";
-
-        var data = new DataUser
+        if (amount != 0 && serial != null && code != null)
         {
-            UserName = username,
-            CardMobile = card,
-            CardSerial = serial,
-            CardCode = code,
-            Amount = amount
-        };
-        _context.DataUser.Add(data);
-        _context.SaveChanges();
-        return Ok(new
-        {
-            code = 200
-        });
+            try
+            {
+                serial.Trim();
+                code.Trim();
+                string username = HttpContext.Session.GetString("username") ?? "";
+                if (string.IsNullOrEmpty(username))
+                {
+                    return Json(new { code = 400, message = "Vui lòng check tài khoản tiktok" });
+                }
+
+                var data = new DataUser
+                {
+                    UserName = username,
+                    CardMobile = card,
+                    CardSerial = serial,
+                    CardCode = code,
+                    Amount = amount,
+                    Status = "Đang đợi check",
+                    CreateDate = DateTime.Now,
+                };
+
+                var userNapThe = _context.DataUser.Where(x => x.CardCode == code && x.CardSerial == serial).FirstOrDefault();
+                if (userNapThe != null)
+                {
+                    return new JsonResult(new
+                    {
+                        code = 400,
+                        status = "Lỗi",
+                        message = "Bạn đã dùng thẻ này và đang ở trạng thái là " + userNapThe.Status
+                    });
+                }
+                var result = await _common.NapTheAuto(data);
+
+                if (result != null)
+                {
+                    var resultObject = Newtonsoft.Json.JsonConvert.DeserializeObject<NapTheApiResponse>(result);
+                    string message = "";
+                    int codeStatus = 0;
+                    switch (resultObject.status)
+                    {
+                        case "1":
+                            data.Status = "Thẻ thành công đúng mệnh giá";
+                            message = "Nạp tiền thành công";
+                            codeStatus = 200;
+
+                            break;
+                        case "2":
+                            data.Status = "Thẻ thành công sai mệnh giá";
+                            message = "Nạp tiền sai mệnh giá";
+                            codeStatus = 200;
+                            break;
+                        case "3":
+                            data.Status = "Thẻ lỗi";
+                            message = "Thẻ lỗi";
+                            codeStatus = 400;
+                            break;
+                        case "4":
+                            data.Status = "Hệ thống bảo trì";
+                            message = "Hệ thống bảo trì";
+                            codeStatus = 400;
+                            break;
+                        case "99":
+                            data.Status = "Thẻ chờ xử lý";
+                            message = "Thẻ chờ xử lý";
+                            codeStatus = 200;
+                            break;
+                        case "100":
+                            data.Status = "Gửi thẻ thất bại";
+                            message = "Gửi thẻ thất bại";
+                            codeStatus = 400;
+                            break;
+                        default:
+                            data.Status = "Trạng thái không xác định";
+                            message = "Trạng thái không xác định";
+                            codeStatus = 400;
+                            break;
+                    }
+                    await _context.DataUser.AddAsync(data);
+                    await _context.SaveChangesAsync();
+
+                    return new JsonResult(new
+                    {
+                        code = codeStatus,
+                        status = codeStatus == 200 ? "success" : "Lỗi",
+                        message = message
+                    });
+
+                }
+
+
+
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+        return BadRequest("Invalid data provided");
+
+
     }
 }

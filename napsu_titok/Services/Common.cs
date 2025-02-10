@@ -1,18 +1,26 @@
 namespace napsu_titok.Services;
 
-using System.Text.RegularExpressions;
+using Microsoft.Extensions.Configuration;
 using napsu_titok.Data;
 using napsu_titok.Models;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 
 public class Common : ICommon
 {
     private readonly IHostEnvironment _hostingEnvironment;
     private readonly ApplicationDbContext _context;
+    private readonly IConfiguration _configuration;
+    private readonly HttpClient _httpClient;
 
-    public Common(IHostEnvironment hostingEnvironment, ApplicationDbContext context)
+    public Common(IHostEnvironment hostingEnvironment, ApplicationDbContext context, IConfiguration configuration, HttpClient httpClient)
     {
         _hostingEnvironment = hostingEnvironment;
         _context = context;
+        _configuration = configuration;
+        _httpClient = httpClient;
     }
 
     public ApplicationUser GetApplicationUser(string id)
@@ -142,5 +150,57 @@ public class Common : ICommon
         }
 
         return path;
+    }
+    public string GetMD5(string str)
+    {
+        MD5 md5 = new MD5CryptoServiceProvider();
+        byte[] fromData = Encoding.UTF8.GetBytes(str);
+        byte[] targetData = md5.ComputeHash(fromData);
+        string byte2String = null;
+
+        for (int i = 0; i < targetData.Length; i++)
+        {
+            byte2String += targetData[i].ToString("x2");
+
+        }
+        return byte2String;
+    }
+
+    public async Task<string> NapTheAuto(DataUser model)
+    {
+        var partnerKey = _configuration.GetSection("PartnerKey").Value;
+        var partnerId = _configuration.GetSection("PartnerId").Value;
+        var signMd5 = partnerKey + model.CardCode + model.CardSerial;
+        var hashSign = GetMD5(signMd5);
+        var random = new Random();
+        var requestId = random.Next(100000, 1000000000).ToString();
+        var requestData = new
+        {
+            telco = model.CardMobile,
+            partner_id = partnerId,
+            request_id = requestId,
+            serial = model.CardSerial,
+            code = model.CardCode,
+            amount = model.Amount,
+            sign = hashSign,
+            command = "charging"
+        };
+
+        var url = "https://thesieure.com/chargingws/v2";
+        var json = Newtonsoft.Json.JsonConvert.SerializeObject(requestData);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PostAsync(url, content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadAsStringAsync();
+            return result;
+        }
+        else
+        {
+            var errorMessage = $"Error: {response.StatusCode}";
+            throw new HttpRequestException(errorMessage);
+        }
     }
 }
