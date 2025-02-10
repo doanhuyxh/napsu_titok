@@ -1,0 +1,150 @@
+﻿@model List<Package>
+@{
+    int index = 1;
+}
+
+<div class="container m-auto d-flex flex-column gap-4">
+    <h3 class="m-auto text-center">Danh sách gói</h3>
+    <div class="d-flex justify-content-end  bg-white shadow-lg p-3">
+        <button class="btn btn-success" onclick="EditData(0,0,0,0)">Tạo mới</button>
+    </div>
+    <div class="table-responsive bg-white shadow-lg p-3">
+        <table class="table table-light">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Số tiền</th>
+                    <th>Coins</th>
+                    <th>Promotion</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@item.Amount.ToString("N0")</td>
+                        <td>@item.Coins.ToString("N0")</td>
+                        <td>@item.Promotions.ToString("N0")</td>
+                        <td>
+                            <button class="btn btn-primary" onclick="EditData('@item.Id','@item.Amount','@item.Coins', '@item.Promotions')">Cập nhật</button>
+                            <button class="btn btn-danger" onclick="Delete('@item.Id')">Xóa</button>
+                        </td>
+                    </tr>
+                    index++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" id="id" value="0">
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Số tiền</label>
+                        <input type="number" class="form-control" id="amount">
+                    </div>
+                    <div class="mb-3">
+                        <label for="coin" class="form-label">Coins</label>
+                        <input type="number" class="form-control" id="coin">
+                    </div>
+                    <div class="mb-3">
+                        <label for="promotion" class="form-label">Promotion</label>
+                        <input type="number" class="form-control" id="promotion">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="SaveData()">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        // $(document).ready(function(){
+        //     $('.table').DataTable();
+        // });
+
+
+        function EditData(id,amount,coin,promotion){
+            $("#staticBackdrop").modal("show")
+
+            if(id != 0){
+                $(".modal-title").text("Sửa gói")
+                $("#id").val(id)
+                $("#amount").val(amount)
+                $("#coin").val(coin)
+                $("#promotion").val(promotion)
+            }else{
+                $(".modal-title").text("Thêm gói")
+                $("#amount").val("")
+                $("#coin").val("")
+                $("#promotion").val("")
+            }
+
+        }
+
+        function SaveData(){
+            var id = $("#id").val()
+            var amount = $("#amount").val()
+            var coin = $("#coin").val()
+            var promotion = $("#promotion").val()
+
+            let formData = new FormData()
+            formData.append("id", id)
+            formData.append("Amount", amount)
+            formData.append("Coins", coin)
+            formData.append("Promotions", promotion)
+
+
+            fetch("/admin-package-save",{
+                method: "POST",
+                body: formData
+            })
+            .then(result=>{
+                $("#staticBackdrop").modal("hide")
+                location.reload()
+            })
+        }
+
+
+        function Delete(id){
+                   Swal.fire({
+                      title: "Bạn chắn chắn muốn xóa?",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonColor: "#3085d6",
+                      cancelButtonColor: "#d33",
+                      cancelButtonText: "Hủy",
+                      confirmButtonText: "Xóa"
+                   }).then((result) => {
+                      if (result.isConfirmed) {
+                          fetch("/admin-package-delete?id="+id)
+                          .then(result=>{
+                              Swal.fire({
+                                  title: "Thành công",
+                                  icon: "success"
+                                })
+                          }).then(result=>{
+                              window.location.reload()
+                          })
+                      }
+                   });
+        }
+
+    </script>
+}

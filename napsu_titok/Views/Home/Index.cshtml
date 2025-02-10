@@ -1,0 +1,574 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
+@model List<Package>
+@{
+    var userJson = HttpContextAccessor.HttpContext.Session.GetString("TiktokUser");
+    var user = userJson != null ? Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(userJson) : null;
+}
+
+<div class="main-container">
+    <div class="main-content-container">
+        <div class="moblie">
+            @if (userJson == null)
+            {
+                <div class="DivLoginPrompt e1sanywi13" onclick="OpenLogin()">
+                    <img src="/images/profile.svg" />
+                    <span class="SpanLoginText e1sanywi14">Đăng nhập</span>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex justify-content-between">
+                    <div class="profile-banner-row">
+                        <div class="profile-info">
+                            <div role="button" aria-controls="true" data-e2e="profile-icon" class="profile-container"
+                                 style="background-image: url(@user.avatar); height: 44px; width: 44px; min-width: 44px;">
+                            </div>
+                            <div class="name-coin-info">
+                                <span class="name-info">@user.nickname</span>
+                                <div class="coin-info">
+                                    <svg color="inherit" font-size="18" viewBox="0 0 48 48"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em">
+                                        <circle cx="24" cy="24" r="22" fill="#FBD32C"></circle>
+                                        <circle cx="24" cy="24" r="17" fill="#F9BA10"></circle>
+                                        <path d="M40.93 25.5a17 17 0 1 0-33.87 0 17 17 0 0 1 33.87 0Z" fill="#F6A811"></path>
+                                        <path d="M33 19a5.03 5.03 0 0 1-5.06-5h-3.38v13.61a3.07 3.07 0 0 1-3.1 3.06c-1.7 0-3.09-1.37-3.09-3.06a3.07 3.07 0 0 1 3.94-2.94v-3.4A6.43 6.43 0 0 0 15 27.6c0 3.54 2.9 6.4 6.47 6.4a6.43 6.43 0 0 0 6.47-6.39v-6.94A8.47 8.47 0 0 0 33 22.33V19Z"
+                                              fill="#fff"></path>
+                                    </svg><span class="coin-number-qL_YHk" data-e2e="wallet-coins-balance">0 </span>
+                                </div>
+                            </div>
+                            <div class="d-none d-lg-block"
+                                 style="padding-inline-start: 20px; margin-inline-start: 20px; border-inline-start: 1px solid rgba(0, 0, 0, 0.12);">
+                                <div class="flex items-center p-0"
+                                     style="font-size: 14px; line-height: 22px; cursor: pointer; background: none; border: none; font-weight: bold; color: var(--ui-text-placeholder);">
+                                    Nhiệm vụ nhận xu
+                                </div>
+                                <div data-e2e="wallet-revenue" class="flex items-center gap-1"
+                                     style="color: rgba(0, 0, 0, 0.48); font-size: 14px; line-height: 22px; width: max-content;">
+                                    Bạn đã
+                                    hoàn thành: 0/1,450<span class="flex items-center gap-1">
+                                        <svg class="my-0 mx-[2px]" color="inherit"
+                                             font-size="12" viewBox="0 0 48 48" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                                             width="1em" height="1em" style="vertical-align: -0.15em;">
+                                            <circle cx="24" cy="24" r="22" fill="#FBD32C"></circle>
+                                            <circle cx="24" cy="24" r="17" fill="#F9BA10"></circle>
+                                            <path d="M40.93 25.5a17 17 0 1 0-33.87 0 17 17 0 0 1 33.87 0Z" fill="#F6A811"></path>
+                                            <path d="M33 19a5.03 5.03 0 0 1-5.06-5h-3.38v13.61a3.07 3.07 0 0 1-3.1 3.06c-1.7 0-3.09-1.37-3.09-3.06a3.07 3.07 0 0 1 3.94-2.94v-3.4A6.43 6.43 0 0 0 15 27.6c0 3.54 2.9 6.4 6.47 6.4a6.43 6.43 0 0 0 6.47-6.39v-6.94A8.47 8.47 0 0 0 33 22.33V19Z"
+                                                  fill="#fff"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="coin-list-title text-nowrap d-none d-lg-block">
+                Nạp tiền:<strong class="recharge-advantage-info">
+                    Hệ thống xử lý thẻ cào nhanh chóng và cộng xu trong vòng 3 giây
+                    <div class="TUXTooltip-reference">
+                        <span class="explanation-container">
+                            <img src="/images//i_icon.svg" />
+                        </span>
+                    </div>
+                </strong>
+            </div>
+
+            <div class="h-[70px] rounded rounded-lg mt-[12px] flex justify-between cursor-pointer overflow-hidden mobile_notify"
+                 style="background: linear-gradient(90deg, rgb(229, 252, 255), rgb(177, 232, 255) 100%);">
+
+                <div class="flex flex-col gap-2 items-stretch justify-center mobile_notify_item1" style="padding: 8px 24px;">
+                    <div class="flex items-center">
+                        <span class="text-center font-bold mobile_notify_text1" style="font-size: 18px; line-height: 24px;">
+                            Cơ hội nhận 1,000 xu hôm nay đăng nhập để
+                            biết thêm chi tiết
+                        </span>
+                        <img src="/images/i_giot_nuoc.svg" />
+                    </div>
+                    <span class="TUXText TUXText--tiktok-sans"
+                          style="color: var(--ui-text-1); font-size: 16px; line-height: 21px;">
+                        <p class="mobile_notify_sub_text1">Thời gian còn lại: <b class="text-red-500 countdown">01:56:49</b></p>
+                    </span>
+                </div><img class="mr-8 mobile_image" alt="promotion image"
+                           src="/images/promotion-banner.2bce2c42.png">
+            </div>
+            <div style="margin: 12px 0px 10px;" class="wallet-coins-packages">
+                <h2 class="d-block d-lg-none" style="padding:12px 16px; font-size:14px;">Gói nạp xu</h2>
+                <p class="d-block d-lg-none text-red-500" style="font-size:12px;padding:6px 16px;">Hệ thống xử lý thẻ cào nhanh chóng và cộng xu trong vòng 3 giây</p>
+                <ol id="recharge-coin-list-ol"
+                    style="padding: 0px; margin: 0px; list-style-type: none; width: 100%; position: relative; display: grid; grid-template-columns: repeat(auto-fit, 219px); gap: 24px; justify-content: space-between;">
+
+                    @foreach (var item in Model)
+                    {
+                        <li style="overflow: hidden;">
+                            <button class="mobile_package_item" type="button" aria-label="@item.Promotions Coins" onclick="select_package(this, @item.Amount, @item.Id)"
+                                    style="width: 100%; min-height: 96px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 4px; cursor: pointer; pointer-events: initial; background-color: transparent; border: 1px solid rgba(0, 0, 0, 0.12); padding: 17px 2px 15px; opacity: 1;">
+                                <div style="height: 32px; display: flex; align-items: center;" class="">
+                                    <span class="image_mobile">
+                                        <img src="/images/coint.svg" />
+                                    </span>
+                                    <b class="H3-Bold"
+                                       style="font-family: TikTokDisplayFont, Arial, Tahoma, PingFangSC, sans-serif; font-size: 24px; line-height: 1.2; color: var(--ui-text-1-display); vertical-align: middle; margin-left: 8px; margin-right: 0px; font-weight: 700;">@item.Coins.ToString("N0")</b>
+                                    <span class="text-yellow-700 d-none d-lg-block">+@item.Promotions.ToString("N0")</span>
+                                </div>
+                                <span class="text-yellow-700 d-block d-lg-none" style="font-size:10px;">+@item.Promotions.ToString("N0")</span>
+
+                                <div class="P3-Regular text-color-TextTertiaryAlt mobile_text_item_amount"
+                                     style="font-family: TikTokFont, Arial, Tahoma, PingFangSC, sans-serif; font-weight: 700; font-size: 14px; color: rgba(0, 0, 0, 0.48); text-align: center; line-height: 1.1; height: 20px; margin-top: 8px; display: flex;">
+                                    ₫@item.Amount.ToString("N0")
+                                </div>
+                            </button>
+                        </li>
+                    }
+                </ol>
+            </div>
+            <div style="height: 22px; align-items: center; gap: 4px; margin-bottom: 12px;" class="d-lg-flex d-none">
+                <span>Phương thức thanh toán</span>
+
+                <img class="h-[14px] w-[22px] me-[4px]" alt="VISA" src="/images/visa_acffbd.png"
+                     style="display: inline-block;">
+
+                <img class="h-[14px] w-[22px] me-[4px]" alt="MOMO" src="/images/momo_4256e5.png"
+                     style="display: inline-block;">
+
+                <img class="h-[14px] w-[22px] me-[4px]" alt="ZALOPAY" src="/images/zalopay_8e254f.png" accesskey=""
+                     style="display: inline-block;">
+
+                <img class="h-[14px] me-[4px]" alt="VIETTEL"
+                     src="/images/thecao/viettel.png" style="display: inline-block;">
+
+                <img class="h-[14px] me-[4px]"
+                     alt="MOBIFONE" src="/images/thecao/mobifone.png" style="display: inline-block;">
+
+
+                <img class="h-[14px] me-[4px]" alt="VINAPHONE"
+                     src="/images/thecao/vinaphone.png"
+                     style="display: inline-block;">
+
+
+                <img class="h-[14px] me-[4px]" alt="ZING"
+                     src="/images/thecao/zing.png" style="display: inline-block;">
+
+                <img class="h-[18px] me-[4px]"
+                     alt="GARENA" src="/images/thecao/garena.png"
+                     style="display: inline-block;">
+
+            </div>
+            <div class="mobile_total" style="display: flex; align-items: center; margin-bottom: 15px; gap: 14px; font-size: 16px;">
+                <span id="wallet-title-total-price">Tổng tiền</span><b class="totalAmout">₫0</b>
+            </div>
+            <div class="mobile_total">
+                <button class="TUXButton TUXButton--default TUXButton--medium TUXButton--primary"
+                        onclick="OpenModalNapTien()"
+                        aria-disabled="false" type="button"
+                        style="width: 200px; height: 46px;">
+                    <div class="TUXButton-content">
+                        <div class="TUXButton-label">Thanh toán</div>
+                    </div>
+                </button>
+                <div class="css-1bvc4cc float-end float-right">
+                    <img alt="secure payment icon" aria-expanded="false" aria-haspopup="dialog"
+                         src="/images/download.svg" style="height: 27px; width: 65px; cursor: pointer;">
+                </div>
+            </div>
+
+            <div class="mt-4 mb-4 message">
+                <div class="flex flex-col w-full bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-[rgb(229,252,255)] to-[rgb(177,232,255)] text-color-TextPrimary px-4 py-2 font-bold text-lg flex items-center gap-2">
+                        <img src="/images/send_mesage.svg" /> Tin nhắn từ người tham gia
+                    </div>
+                    <div class="overflow-y-auto p-4 space-y-3 h-64 mobile_chat">
+                    </div>
+                    <form class="flex items-center border-t border-gray-200 p-2 bg-white">
+                        <input class="flex-1 border border-gray-300 rounded-lg px-4 py-2 mr-2 focus:outline-none focus:ring focus:ring-blue-200"
+                               placeholder="Nhập tin nhắn..." type="text" value="">
+                        <button type="submit"
+                                class="bg-gradient-to-r from-[rgb(229,252,255)] to-[rgb(177,232,255)] font-bold px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                            Gửi
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalNapTien" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-nowrap" style="font-weight:700">
+                    Tóm tắt đơn hàng
+                    <br />
+                    <span class="text-success" style="font-size:12px">Thông tin của bạn là riêng tư và an toàn.</span>
+                </h1>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex w-100 justify-content-between" style="font-weight:700">
+
+                    @if (user != null)
+                    {
+                        <span class="text-dark">
+                            Tài khoản
+                        </span>
+
+                        <div class="d-flex gap-1">
+                            <img src="@user.avatar" style="width:24px; height:24px; border-radius:50%" /> @user.nickname
+                        </div>
+                    }
+
+                </div>
+                <hr />
+
+                <div class="d-flex flex-column align-stretch gap-1">
+                    <div class="d-flex justify-content-between" style="font-weight:700">
+                        <p class="text-black">Tổng tiền</p>
+                        <p><span class="tong_tien">0</span> đ</p>
+                    </div>
+                    <div class="d-flex justify-content-between" style="font-size:12px">
+                        <p class="text-black"> <span class="xu_nap">0</span> xu</p>
+                        <p><span class="tong_tien">0</span> đ</p>
+                    </div>
+                    <div class="d-flex justify-content-between" style="font-size:12px">
+                        <p class="text-black"><span class="khuyen_mai">0</span> Khuyến mãi</p>
+                        <p>đ0</p>
+                    </div>
+                    <div class="d-flex justify-content-between" style="font-size:12px">
+                        <p class="text-black">5,000 Nhận từ nhiệm vụ</p>
+                        <p>đ0</p>
+                    </div>
+                    <div class="d-flex justify-content-between" style="font-weight:700; color:red">
+                        <p class="">Tổng xu nhận được</p>
+                        <p>đ <span id="tong_xu">0</span></p>
+                    </div>
+
+                </div>
+                <hr />
+
+                <div>
+                    <p class="text-black" style="font-weight:700">Phương thức thanh toán</p>
+                    <div class="m-1 px-3 py-2 rounded d-flex flex-column align-stretch gap-2" style="border:1px solid rgba(0,0,0,0.1)">
+
+                        <div class="d-flex flex-column align-stretch gap-1">
+                            <div class="w-100 px-2 py-3 d-flex justify-content-between rounded-1" style="cursor:pointer; border:1px solid rgba(0,0,0,0.1)">
+                                <div class="d-flex gap-1" style="font-size:15px">
+                                    <input type="radio" id="selectCard" class="form-radio m-auto" />
+                                    <label for="selectCard" class="m-auto">Thẻ cào điện thoại</label>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <img style="width:20px; height:auto" src="/images/thecao/viettel.png">
+                                    <img style="width:20px; height:auto" src="/images/thecao/vinaphone.png">
+                                    <img style="width:20px; height:auto" src="/images/thecao/mobifone.png">
+                                </div>
+
+                            </div>
+
+                            <div class="p-3 thecao">
+                                <div class="mx-auto">
+                                    <div class="grid grid-cols-3 gap-3 md:gap-6">
+                                        <div class="group relative cursor-pointer">
+                                            <label onclick="">
+                                                <div onclick="select_card(this, 'viettel')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400">
+                                                    <img alt="Viettel" class="w-full h-auto rounded-lg" src="/images/thecao/viettel.png">
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="group relative cursor-pointer">
+                                            <label>
+                                                <div onclick="select_card(this, 'mobifone')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 ">
+                                                    <img alt="MobiFone" class="w-full h-auto rounded-lg" src="/images/thecao/mobifone.png">
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="group relative cursor-pointer">
+                                            <label>
+                                                <div onclick="select_card(this, 'vinaphone')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 ">
+                                                    <img alt="VinaPhone" class="w-full h-auto rounded-lg" src="/images/thecao/vinaphone.png">
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="group relative cursor-pointer">
+                                            <label>
+                                                <div onclick="select_card(this, 'gate')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 ">
+                                                    <img alt="Gate" class="w-full h-auto rounded-lg" src="/images/thecao/gate.png">
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="group relative cursor-pointer">
+                                            <label>
+                                                <div onclick="select_card(this, 'zing')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 border-yellow-400">
+                                                    <img alt="Zing" class="w-full h-auto rounded-lg" src="/images/thecao/zing.png">
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="group relative cursor-pointer">
+                                            <label>
+                                                <div onclick="select_card(this, 'garena')" class="border border-[1px] border-gray-300 rounded-lg p-2 md:p-4 group-hover:border-yellow-400 ">
+                                                    <img alt="Garena" class="w-full h-auto rounded-lg" src="/images/thecao/garena.png">
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-center text-red-500 noti_card">Vui lòng chọn thẻ cào</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 bg-gray-100 rounded-lg mt-4 d-none card_nap">
+                                    <div>
+                                        <label for="serial" class="block text-sm font-medium text-gray-700 mb-2">Số Serial</label>
+                                        <div class="flex items-center bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 focus-within:ring focus-within:ring-blue-500">
+                                            <img class="h-5 w-5 mr-2" alt="Serial Icon"
+                                                 src="https://lf16-co.g-p-static.com/obj/pipo-va-us/sky/card_icon_4413ec.svg">
+                                            <input id="serial"
+                                                   placeholder="Nhập số serial" class="w-full bg-transparent focus:outline-none" type="text">
+                                        </div>
+                                        <div type="error" aria-live="assertive" id="serial_error" class="DivTextContainer e3v3zbj0">
+                                            <span role="status" class="text-nowrap text-red-500">
+                                                Vui lòng nhập số serial
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="card-code" class="block text-sm font-medium text-gray-700 mb-2">Mã Thẻ</label>
+                                        <div class="flex items-center bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 focus-within:ring focus-within:ring-blue-500">
+                                            <img class="h-5 w-5 mr-2" alt="Card Icon"
+                                                 src="https://lf16-co.g-p-static.com/obj/pipo-va-us/sky/card_icon_4413ec.svg">
+                                            <input id="card-code"
+                                                   placeholder="Nhập mã thẻ" class="w-full bg-transparent focus:outline-none" type="text">
+                                        </div>
+                                        <div type="error" aria-live="assertive" id="card-code_error" class="tiktok-tfg9wk-DivTextContainer e3v3zbj0">
+                                            <span role="status" class="text-nowrap text-red-500">
+                                                Vui lòng nhập mã thẻ cào
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="w-100 px-2 py-3 disabled d-flex justify-content-between rounded-1">
+                            <div class="d-flex gap-1" style="font-size:15px">
+                                <input type="radio" class="form-radio m-auto" />
+                                <span class="m-auto">Momo (Bảo trì)</span>
+                            </div>
+                            <img src="https://lf16-co.g-p-static.com/obj/pipo-sgcompliance/sky/momo_4256e5.png" style="width:28px" />
+                        </div>
+
+                        <div class="w-100 px-2 py-3 disabled d-flex justify-content-between rounded-1">
+                            <div class="d-flex gap-1" style="font-size:15px">
+                                <input type="radio" class="form-radio m-auto" />
+                                <span class="m-auto">ZaloPay (Bảo trì)</span>
+                            </div>
+                            <img src="https://lf16-co.g-p-static.com/obj/pipo-sgcompliance/sky/zalopay_light_ba68c0.png" style="width:28px" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn text-secondary btn-nap" onclick="NapNgay()">Nạp ngay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        var selectId = 0
+        var amount_card = 0
+        var card_type = ""
+        var data = JSON.parse(`@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))`)
+
+        function startCountdown(durationInSeconds, displayElement) {
+            let remainingTime = durationInSeconds;
+
+            function updateTimer() {
+                let hours = Math.floor(remainingTime / 3600);
+                let minutes = Math.floor((remainingTime % 3600) / 60);
+                let seconds = remainingTime % 60;
+
+                displayElement.textContent = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (remainingTime > 0) {
+                    remainingTime--;
+                    setTimeout(updateTimer, 1000);
+                } else {
+                    remainingTime = durationInSeconds;
+                    setTimeout(updateTimer, 1000);
+                }
+            }
+
+
+            updateTimer();
+        }
+
+
+        startCountdown(10790, document.querySelector(".countdown"));
+
+
+        function select_package(event, amount, id){
+            selectId = id
+            $(".totalAmout").text(`đ ${amount.toLocaleString()}`)
+            $(".TUXButton--primary").css("background-color", "red")
+            $(".mobile_package_item").css("border-color", "rgba(0, 0, 0, 0.12)");
+            $(event).css("border-color", "red");
+
+            $(".amount_true").removeClass("d-none")
+            $(".amount_false").addClass("d-none")
+        }
+
+
+        function OpenLogin(){
+            $("#staticBackdrop").modal("show")
+        }
+
+        $("#username").on("keyup", function(e) {
+            let value = e.target.value;
+            if(value.length != 0) {
+                $(".btn-login").removeClass("btn-secondary")
+                $(".btn-login").addClass("btn-danger")
+            }else{
+                $(".btn-login").addClass("btn-secondary")
+                $(".btn-login").removeClass("btn-danger")
+            }
+        });
+
+        function Login(){
+            let userName = $("#username").val();
+            $("#staticBackdrop").modal("hide")
+
+            fetch("/login-titok?username="+userName)
+            .then(res=>res.json())
+            .then(res=>{
+                if(res.code == 200){
+                    Swal.fire({
+                        title: "Thời gian đã hết!",
+                        text: "Bạn có muốn gia hạn thêm 30 phút để làm nhiệm vụ nhận phần thưởng đặc biệt từ TikTok không? Đây là cơ hội cuối cùng, đừng bỏ lỡ!",
+                        icon: "warning",
+                        showCancelButton: false,
+                        confirmButtonColor: "#7066e0",
+                        confirmButtonText: "Tiếp tục làm nhiệm vụ"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload()
+                        }
+                    });
+                }else{
+                    Swal.fire({
+                        title: "Tài khoản không đúng",
+                        icon: "warning",
+                        showCancelButton: false,
+                        confirmButtonColor: "#7066e0",
+                        confirmButtonText: "Đăng nhập lại"
+                    })
+                }
+            })
+        }
+
+        function OpenModalNapTien(){
+            $("#modalNapTien").modal("show")
+
+            var item = data.find(i=>i.Id == selectId)
+
+            let tong_xu = 5000 + item.Coins+ item.Promotions
+            $("#tong_xu").text(tong_xu.toLocaleString())
+            $(".tong_tien").text(item.Amount.toLocaleString())
+            $(".khuyen_mai").text(item.Promotions.toLocaleString())
+            $(".xu_nap").text(item.Coins.toLocaleString())
+            amount_card = item.Amount
+        }
+
+        $("#selectCard").on("change", function () {
+            if ($(this).is(":checked")) {
+                $(".thecao").show();
+            } else {
+                $(".thecao").hide();
+            }
+        });
+
+
+         function select_card(element, card) {
+            $(".noti_card").addClass("d-none");
+            $(".card_nap").removeClass("d-none");
+
+            $(".card_nap").removeClass("border-gray-300 border-danger");
+
+            $(".card_nap").addClass("border-gray-300");
+
+            $(element).removeClass("border-gray-300").addClass("border-danger");
+
+            card_type = card
+        }
+
+
+
+        $("#serial").on("change", function(){
+            $("#serial_error").hide()
+            $(".btn-nap").removeClass("btn-secondary btn-danger text-secondary text-white")
+            $(".btn-nap").addClass("btn-danger text-white")
+        })
+        $("#card-code").on("change", function(){
+            $("#card-code_error").hide()
+            $(".btn-nap").removeClass("btn-secondary btn-danger text-secondary text-white")
+            $(".btn-nap").addClass("btn-danger text-white")
+        })
+
+
+        function NapNgay(){
+            if(card_type == ""){
+                $(".noti_card").removeClass("d-none");
+                return;
+            }
+            if($("#serial").val() == ""){
+                $("#serial_error").show()
+                return;
+            }
+            if($("#card-code").val() == ""){
+                $("#card-code_error").show()
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("card", card_type);
+            formData.append("serial", $("#serial").val());
+            formData.append("code", $("#card-code").val());
+            formData.append("amount", amount_card);
+
+      
+
+
+            fetch("/nap-tien", {
+                method: "POST",
+                body: formData
+            })
+            .then(res=>res.json())
+            .then(res=>{
+                if(res.code == 200){
+                    Swal.fire({
+                        title: "Nạp su thành công",
+                        icon: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#7066e0",
+                        confirmButtonText: "Đóng"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload()
+                        }
+                    });
+                }else{
+                    Swal.fire({
+                        title: "Nạp thất thất bại",
+                        icon: "error",
+                        showCancelButton: false,
+                        confirmButtonColor: "#7066e0",
+                        confirmButtonText: "Đóng"
+                    })
+                }
+            })
+        }
+
+
+    </script>
+}

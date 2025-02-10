@@ -1,0 +1,272 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
+
+@{
+    var userJson = HttpContextAccessor.HttpContext.Session.GetString("TiktokUser");
+    var user = userJson != null ? Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(userJson) : null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nạp Xu TikTok Giá Rẻ - Uy Tín, Nhanh Chóng | Hướng Dẫn Chi Tiết</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="https://unpkg.com/@@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <link href="/css/main_user.css" rel="stylesheet">
+    <link href="/css/pc_style.css" rel="stylesheet">
+    <link href="/css/mobile_style.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <div id="app-header" class="DivHeaderContainer d-lg-flex d-none">
+        <div class="DivHeaderWrapperMain e10win0d1">
+            <div class="DivHeaderLeftContainer en2lce51">
+                <a data-e2e="tiktok-logo"
+                class="e1an6zpe0 ALink-StyledLinkLogo er1vbsz1" aria-label="Go to TikTok For You feed" href="/"
+                data-discover="true" style="position: relative;">
+                    <img src="/images/logo.svg" />
+                    <strong>TikTok</strong>
+                </a>
+            </div>
+            <div class="DivHeaderCenterContainer en2lce50">
+                <div class="DivSearchFormContainer e1hi1cmj0">
+                    <form data-e2e="search-box" class="search-input FormElement e14ntknm0">
+                        <input placeholder="Search"
+                        autocomplete="off" role="combobox" aria-controls="true" aria-label="Search"
+                        aria-expanded="false" aria-autocomplete="list" data-e2e="search-user-input"
+                        class="InputElement e14ntknm3" type="search" name="q"><span class="SpanSpliter e14ntknm6"></span>
+                        <button data-e2e="search-box-button"
+                        aria-label="Search" class="ButtonSearch e14ntknm7" type="button">
+                            <div class="DivSearchIconContainer e14ntknm8">
+                                <img src="/images/search.svg" />
+                            </div>
+                        </button>
+                        <div class="DivInputBorder e14ntknm1"></div>
+                    </form>
+                </div>
+            </div>
+            <div class="DivHeaderRightContainer e13wiwn60">
+                @if(userJson == null)
+                {
+                    <button type="button" onclick="OpenLogin()"
+                    id="header-login-button" class="e13wiwn61 Button-StyledLoginButton ehk74z00">
+                        Đăng nhập
+                    </button>
+                }
+                else
+                {
+                    <div class="css-32faz3">
+                        <div data-e2e="top-dm-icon" class="DivMessageIconContainer e1nx07zo0">
+                            <div aria-label="Open messages" class="StyledLink er1vbsz0">
+                                <span>
+                                    <svg class="StyledIcon e1nx07zo1" width="1em" data-e2e="true" height="1em"
+                                         viewBox="0 0 48 48" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M2.17877 7.17357C2.50304 6.45894 3.21528 6 4.00003 6H44C44.713 6 45.372 6.37952 45.7299 6.99615C46.0877 7.61278 46.0902 8.37327 45.7365 8.99228L25.7365 43.9923C25.3423 44.6821 24.5772 45.0732 23.7872 44.9886C22.9972 44.9041 22.3321 44.3599 22.0929 43.6023L16.219 25.0017L2.49488 9.31701C1.97811 8.72642 1.85449 7.88819 2.17877 7.17357ZM20.377 24.8856L24.531 38.0397L40.5537 10H8.40757L18.3918 21.4106L30.1002 14.2054C30.5705 13.9159 31.1865 14.0626 31.4759 14.533L32.5241 16.2363C32.8136 16.7066 32.6669 17.3226 32.1966 17.612L20.377 24.8856Z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div tabindex="0" role="button" aria-expanded="false" aria-label="Inbox 440 unread notifications"
+                         data-e2e="inbox-icon" class="DivHeaderInboxContainer e18kkhh40">
+                        <span>
+                            <svg class="css-1g0p6jv-StyledInboxIcon e18kkhh41" width="32" data-e2e="true" height="32" viewBox="0 0 32 32"
+                                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M24.0362 21.3333H18.5243L15.9983 24.4208L13.4721 21.3333H7.96047L7.99557 8H24.0009L24.0362 21.3333ZM24.3705 23.3333H19.4721L17.2883 26.0026C16.6215 26.8176 15.3753 26.8176 14.7084 26.0026L12.5243 23.3333H7.62626C6.70407 23.3333 5.95717 22.5845 5.9596 21.6623L5.99646 7.66228C5.99887 6.74352 6.74435 6 7.66312 6H24.3333C25.2521 6 25.9975 6.7435 26 7.66224L26.0371 21.6622C26.0396 22.5844 25.2927 23.3333 24.3705 23.3333ZM12.6647 14C12.2965 14 11.998 14.2985 11.998 14.6667V15.3333C11.998 15.7015 12.2965 16 12.6647 16H19.3313C19.6995 16 19.998 15.7015 19.998 15.3333V14.6667C19.998 14.2985 19.6995 14 19.3313 14H12.6647Z">
+                                </path>
+                            </svg>
+                        </span>
+                    </div>
+                    <div id="header-more-menu-icon" tabindex="0" role="button" aria-label="Open settings menu" aria-expanded="false"
+                         aria-haspopup="true" aria-controls="true" data-e2e="profile-icon"
+                         class="DivProfileContainer efubjyv0"
+                         style="background-image: url(@user.avatar);">
+                        <div id="header-setting-popup-list" tabindex="-1" class="DivContainer e2ipgxl0"
+                             style="background-color: rgb(255, 255, 255);">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 fill="rgba(255, 255, 255, 1)" viewBox="0 0 24 8" width="1em" height="1em"
+                                 class="StyledTopArrow e2ipgxl1" style="right: 15px;">
+                                <path d="M0 8c7 0 10-8 12-8s5 8 12 8z"></path>
+                            </svg>
+                            <ul id="header-setting-popup-list" role="listbox"
+                                class="UlPopupContainer exws2ct0">
+                                <li tabindex="0" role="option" class="">
+                                    <div class="DivSettingItem exws2ct4 d-flex gap-2 pr-5 py-2 font-weight-bold">
+                                        <svg class="css-2jg6he" width="1em" data-e2e="true"
+                                             height="1em" viewBox="0 0 48 48" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                  d="M24.0003 7C20.1343 7 17.0003 10.134 17.0003 14C17.0003 17.866 20.1343 21 24.0003 21C27.8663 21 31.0003 17.866 31.0003 14C31.0003 10.134 27.8663 7 24.0003 7ZM13.0003 14C13.0003 7.92487 17.9252 3 24.0003 3C30.0755 3 35.0003 7.92487 35.0003 14C35.0003 20.0751 30.0755 25 24.0003 25C17.9252 25 13.0003 20.0751 13.0003 14ZM24.0003 33C18.0615 33 13.0493 36.9841 11.4972 42.4262C11.3457 42.9573 10.8217 43.3088 10.2804 43.1989L8.32038 42.8011C7.77914 42.6912 7.4266 42.1618 7.5683 41.628C9.49821 34.358 16.1215 29 24.0003 29C31.8792 29 38.5025 34.358 40.4324 41.628C40.5741 42.1618 40.2215 42.6912 39.6803 42.8011L37.7203 43.1989C37.179 43.3088 36.6549 42.9573 36.5035 42.4262C34.9514 36.9841 29.9391 33 24.0003 33Z">
+                                            </path>
+                                        </svg>
+                                        <span class="text-nowrap">@user.nickname</span>
+                                    </div>
+                                </li>
+                                <li data-e2e="logout-entrance" tabindex="0" role="option" onclick="Logout()">
+                                    <div class="DivSettingItem exws2ct4 d-flex gap-2 pr-5 py-1 font-weight-bold">
+                                        <svg class="css-2jg6he" width="1em" data-e2e="true"
+                                             height="1em" viewBox="0 0 48 48" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                  d="M24.1716 26L7 26C6.44771 26 6 25.5523 6 25L6 23C6 22.4477 6.44771 22 7 22L24.1716 22L20.2929 18.1213C19.9024 17.7308 19.9024 17.0976 20.2929 16.7071L21.7071 15.2929C22.0976 14.9024 22.7308 14.9024 23.1213 15.2929L30.4142 22.5858C31.1953 23.3668 31.1953 24.6332 30.4142 25.4142L23.1213 32.7071C22.7308 33.0976 22.0976 33.0976 21.7071 32.7071L20.2929 31.2929C19.9024 30.9024 19.9024 30.2692 20.2929 29.8787L24.1716 26ZM36 43L27 43C26.4477 43 26 42.5523 26 42L26 40C26 39.4477 26.4477 39 27 39L36 39C37.1046 39 38 38.1046 38 37L38 11C38 9.89543 37.1046 9 36 9L27 9C26.4477 9 26 8.55228 26 8L26 6C26 5.44771 26.4477 5 27 5L36 5C39.3137 5 42 7.68629 42 11L42 37C42 40.3137 39.3137 43 36 43Z">
+                                            </path>
+                                        </svg>
+                                        <span class="text-nowrap">Log out</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="top-0 left-0 right-0 fixed-top d-lg-none">
+        <header class="flex items-center px-8 overflow-hidden relative" role="navigation" style="height: 52px;">
+            <div role="none" class="absolute w-full h-full top-0 left-0 z-[-1]"
+                 style="background-color: rgb(255, 255, 255);"></div>
+            <div class="">
+                <img style="width:118px; height:auto" src="/images/logo_mobile.svg"/>
+            </div>
+            <div data-test-tag="tux-nav-bar-content"
+                 class="truncate flex-3 px-4 text-center H3-Bold flex items-center gap-3"
+                 style="color:rgb(0, 0, 0); line-height: 52px;">
+                <img alt="Tiktok-coins" width="30" height="30"
+                     src="/images/xu.avif">
+            </div>
+            <div class="flex-1 inline-flex items-center justify-end h-full">
+                <button data-test-tag="tux-nav-bar-button-0"
+                        class="tux-nav-bar-icon-action h-[40px] w-[40px] p-0 text-color-TextPrimary flex items-center justify-center">
+                    <div>
+                        <svg fill="currentColor" viewBox="0 0 48 48"
+                             xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" class="flip-rtl ">
+                            <path d="M21.36 28.05V22.8l1.79-.1c2.33-.1 3.87-1.36 3.87-3.31s-1.31-3-3.33-3c-1.95 0-3.53.95-3.88 3.1l-4.31-.7c.54-3.98 3.78-6.28 8.54-6.28 4.5 0 7.66 2.66 7.66 6.75 0 3.3-2.18 5.66-5.58 6.3v2.5h-4.76ZM20.62 32.72a2.99 2.99 0 0 1 3.07-3.04 2.96 2.96 0 0 1 3.04 3.04c0 1.7-1.28 3.01-3.04 3.01a2.98 2.98 0 0 1-3.07-3Z">
+                            </path>
+                            <path d="M2 24a22 22 0 1 1 44 0 22 22 0 0 1-44 0Zm22 18a18 18 0 1 0 0-36 18 18 0 0 0 0 36Z">
+                            </path>
+                        </svg>
+                    </div>
+                </button>
+            </div>
+        </header>
+    </div>
+
+    @RenderBody()
+
+    <footer class="fixed-bottom d-lg-none">
+        <div class="px-[16px] py-[12px] bg-white"
+             style="box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 12px 0px; transform: translateZ(0px);">
+            <div class="pb-[10px] flex justify-center">
+                <img class="h-[16px] w-[26px] me-[4px]"
+                     alt="MOMO" src="/images/momo_4256e5.png"
+                     style="display: inline-block; border: 0.5px solid rgb(225, 228, 236); border-radius: 4px;">
+                <img class="h-[16px] w-[26px] me-[4px]" alt="ZALOPAY" src="/images/zalopay_8e254f.png"
+                     style="display: inline-block; border: 0.5px solid rgb(225, 228, 236); border-radius: 4px;">
+                <img class="h-[16px] me-[4px]" alt="VIETTEL" src="/images/thecao/viettel.png"
+                     style="display: inline-block; border: 0.5px solid rgb(225, 228, 236); border-radius: 4px;">
+                <img class="h-[16px] me-[4px]" alt="MOBIFONE" src="/images/thecao/mobifone.png"
+                     style="display: inline-block; border: 0.5px solid rgb(225, 228, 236); border-radius: 4px;">
+                <img class="h-[16px] me-[4px]" alt="VINAPHONE" src="/images/thecao/vinaphone.png"
+                     style="display: inline-block; border: 0.5px solid rgb(225, 228, 236); border-radius: 4px;">
+                <img class="h-[16px] me-[4px]" alt="ZING" src="/images/thecao/zing.png"
+                     style="display: inline-block; border: 0.5px solid rgb(225, 228, 236); border-radius: 4px;">
+                <img class="h-[16px] me-[4px]" alt="GARENA" src="/images/thecao/garena.png"
+                     style="display: inline-block; border: 0.5px solid rgb(225, 228, 236); border-radius: 4px;">
+            </div>
+            <div >
+                <button class="box-border flex outline-none cursor-pointer border-solid items-center justify-center px-0 relative w-full text-white"
+                        type="button" style="height: 44px;">
+                    <div class="flex items-center justify-center w-full px-[6px] amount_true d-none bg-red-500 rounded">
+                        <span class="me-[4px]"
+                              style="font-size: 20px; line-height: 0;">
+                        </span><span class="truncate" data-test-tag="tux-button-content" style="line-height: 44px;" onclick="OpenModalNapTien()">
+                            Thanh
+                            toán <span class="totalAmout"></span>
+                        </span>
+                    </div>
+
+                    <div class="flex items-center justify-center w-full px-[6px] amount_false " style="color:rgba(0,0,0,0.3)">
+                        <span class="me-[4px]"
+                              style="font-size: 20px; line-height: 0;">
+                            <svg fill="currentColor" viewBox="0 0 48 48"
+                                 xmlns="http://www.w3.org/2000/svg" width="1em" height="1em">
+                                <path d="M28.22 13.7a4.83 4.83 0 0 0 4.86 4.8l-.04 3.45c-1.77 0-3.4-.53-4.75-1.43l-.09 6.99a6.64 6.64 0 0 1-6.69 6.3 6.44 6.44 0 0 1-6.53-6.45 6.63 6.63 0 0 1 7.61-6.4l-.04 3.7a2.97 2.97 0 0 0-3.88 2.7 2.85 2.85 0 0 0 2.89 2.85 2.93 2.93 0 0 0 2.96-2.85l.16-13.66h3.54Z">
+                                </path>
+                                <path d="M5 23.15V10.5c0-1.2 1.06-2.17 2.26-2.28 3.05-.25 8.87-1.52 15.34-6.99.8-.67 2-.67 2.8 0 6.46 5.46 12.28 6.74 15.34 7 1.2.1 2.26 1.07 2.26 2.27v12.65c0 14.13-14.77 21.8-18.27 23.43-.47.22-1 .22-1.47 0C19.76 44.96 5 37.28 5 23.15Zm4-11.1v11.1c0 5.57 2.88 10.04 6.56 13.5 3.1 2.91 6.5 4.86 8.44 5.85a37.07 37.07 0 0 0 8.43-5.85C36.11 33.2 39 28.72 39 23.15V12.04c-3.65-.53-9.1-2.16-15-6.8-5.91 4.64-11.35 6.27-15 6.8Z">
+                                </path>
+                            </svg>
+                        </span><span class="truncate" style="line-height: 44px;">
+                            Vui lòng chọn
+                            gói nạp
+                        </span>
+                    </div>
+
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5"></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex flex-column gap-3 align-stretch">
+                    <h4 class="text-center text-black">Đăng nhập TikTok</h4>
+
+                    <div class="form-group">
+                        <label class="form-label font-weight-bold">Username Tiktok</label>
+                        <input class="form-control" id="username"/>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="w-100 px-4 py-2 btn btn-secondary btn-login" onclick="Login()">Đăng nhập</button>
+                    </div>
+
+                    <p>Hướng dẫn lấy username</p>
+
+                    <div class="w-100">
+                        <img src="/images/huongdan.png" />
+                    </div>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <p>Tiktok không yêu cầu mật khẩu</p>
+                    <p class="text-danger font-weight-bold" style="font-weight:700">
+                        Vui lòng không cấp mật khẩu cho bất kỳ ai
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        function Logout(){
+            fetch("/logout-titok")
+            .then(res=>{
+                window.location.reload()
+            })
+        }
+        $(function() {
+          $( "#accordion" ).accordion();
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

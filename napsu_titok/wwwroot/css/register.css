@@ -1,0 +1,65 @@
+body {
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    background-image: url(/images/bg_login.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.card {
+    max-width: 400px;
+    width: 100%;
+    border-radius: 15px;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    border-color: #86b7fe;
+}
+
+.form-control {
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-primary {
+    transition: background-color 0.15s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 576px) {
+    .card-body {
+        padding: 2rem !important;
+    }
+}
+
+.invalid-feedback {
+    display: block;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease-out;
+}
+
+.is-invalid ~ .invalid-feedback {
+    height: 21px;
+}
+
+.form-control.is-invalid {
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}

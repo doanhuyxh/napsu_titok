@@ -1,0 +1,34 @@
+﻿@model List<DataUser>
+@{
+    int index = 1;
+}
+<div class="container-fluid">
+    <h3 class="text-center">Danh sách thẻ</h3>
+    <div class="table-responsive bg-white shadow-lg p-5 my-5">
+        <div class="d-lg-flex"></div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Loại thẻ</th>
+                    <th>Số serial</th>
+                    <th>Mã nạp</th>
+                    <th>Mệnh giá</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model){
+                    <tr>
+                        <td>@index</td>
+                        <th>@item.CardMobile</th>
+                        <th>@item.CardSerial</th>
+                        <th>@item.CardCode</th>
+                        <th>@item.Amount</th>
+                        <th></th>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

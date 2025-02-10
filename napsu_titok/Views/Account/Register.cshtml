@@ -1,0 +1,38 @@
+@section Styles {
+
+    <link href="/css/register.css" rel="stylesheet" /> 
+}
+
+
+
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-gradient">
+    <div class="card shadow-lg">
+        <div class="card-body p-5">
+            <h2 class="text-center mb-4">Đăng ký</h2>
+            <form id="signupForm" novalidate>
+               
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" required aria-describedby="emailError">
+                    <div id="emailError" class="invalid-feedback"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mật khẩu</label>
+                    <input type="password" class="form-control" id="password" required aria-describedby="passwordError">
+                    <div id="passwordError" class="invalid-feedback"></div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    Đăng ký
+                </button>
+            </form>
+            <div class="text-center mt-3">
+                <a href="/login" class="btn btn-outline-secondary w-100">Đăng nhập</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="/js/register.js"></script>
+}
