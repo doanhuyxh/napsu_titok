@@ -177,12 +177,12 @@
                     <div class="bg-gradient-to-r from-[rgb(229,252,255)] to-[rgb(177,232,255)] text-color-TextPrimary px-4 py-2 font-bold text-lg flex items-center gap-2">
                         <img src="/images/send_mesage.svg" /> Tin nhắn từ người tham gia
                     </div>
-                    <div class="overflow-y-auto p-4 space-y-3 h-64 mobile_chat">
+                    <div class="overflow-y-auto p-4 space-y-3 h-64 mobile_chat chat_online">
                     </div>
                     <form class="flex items-center border-t border-gray-200 p-2 bg-white">
                         <input class="flex-1 border border-gray-300 rounded-lg px-4 py-2 mr-2 focus:outline-none focus:ring focus:ring-blue-200"
-                               placeholder="Nhập tin nhắn..." type="text" value="">
-                        <button type="submit"
+                               placeholder="Nhập tin nhắn..." type="text" id="input_user" value="">
+                        <button type="button" onclick="UserSendMessage()"
                                 class="bg-gradient-to-r from-[rgb(229,252,255)] to-[rgb(177,232,255)] font-bold px-4 py-2 rounded-lg hover:bg-blue-600 transition">
                             Gửi
                         </button>
@@ -537,8 +537,6 @@
             formData.append("code", $("#card-code").val());
             formData.append("amount", amount_card);
 
-      
-
 
             fetch("/nap-tien", {
                 method: "POST",
@@ -571,6 +569,54 @@
             })
         }
 
+        function appendChatMessage(username, message, timeAgo, isAuto) {
+            const chatContainer = document.querySelector(".chat_online");
+            if (!chatContainer) return;
+
+            const chatMessage = document.createElement("div");
+            chatMessage.className = "flex justify-start";
+            if(!isAuto){
+                chatMessage.className = "flex justify-end";
+            }
+
+            chatMessage.innerHTML = `
+                <div class="bg-gray-200 text-gray-800 rounded-lg px-4 py-2 text-sm max-w-xs">
+                    <p class="font-semibold">${username}</p>
+                    <p>${message}</p>
+                    <p class="text-xs text-gray-500 mt-1">${timeAgo}</p>
+                </div>
+            `;
+
+            chatContainer.appendChild(chatMessage);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function getRandomMessage() {
+            const messages = [
+                "Xong nhiệm vụ, nhận thêm 20k xu rồi!",
+                "Hoàn thành thử thách, nhận ngay quà khủng!",
+                "Bạn vừa mở khóa một huy hiệu mới!",
+                "Cấp độ của bạn đã được nâng lên!",
+                "Nhận được 50k xu từ nhiệm vụ đặc biệt!"
+            ];
+            return messages[Math.floor(Math.random() * messages.length)];
+        }
+
+        function startRandomMessages() {
+            setInterval(() => {
+                const randomMessage = getRandomMessage();
+                appendChatMessage("com******", randomMessage, "Vài giây trước", true);
+            }, 1000);
+        }
+
+        // Gọi hàm để chèn tin nhắn
+        appendChatMessage("com******", "Xong nhiệm vụ, nhận thêm 20k xu rồi!", "16 giây trước", true);
+        startRandomMessages();
+
+        function UserSendMessage(){
+            appendChatMessage("Tôi", $("#input_user").val(), "1 giây trước", false);
+            $("#input_user").val("")
+        }
 
     </script>
 }
